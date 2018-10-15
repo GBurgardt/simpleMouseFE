@@ -1,0 +1,7 @@
+{
+  "name": "mouseControl",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
