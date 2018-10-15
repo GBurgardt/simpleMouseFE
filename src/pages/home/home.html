@@ -1,14 +1,80 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+    
+    <div class="btn-move-container">
+
+        <div class="options-container">
+            <div class="options-sub-container">
+                
+                <div *ngIf="mouseType === 'mousePointer'">
+                    <button (click)="mouseType = 'mousePointer'" ion-button icon-only>
+                        <i class="fas fa-mouse-pointer"></i>
+                    </button>
+                    <button (click)="mouseType = 'arrows'" ion-button icon-only outline>
+                        <i class="fas fa-arrows-alt"></i>
+                    </button>
+                </div>
+                <div *ngIf="mouseType === 'arrows'">
+                    <button (click)="mouseType = 'mousePointer'" ion-button icon-only outline>
+                        <i class="fas fa-mouse-pointer"></i>
+                    </button>
+                    <button (click)="mouseType = 'arrows'" ion-button icon-only>
+                        <i class="fas fa-arrows-alt"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div *ngIf="mouseType === 'mousePointer'" class="btn-mousepointer-container">
+            
+        </div>
+
+        <div *ngIf="mouseType === 'arrows'" class="btn-arrow-container">
+            <div class="btn-top">
+                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown('up')" ion-button large>
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+            <div class="btn-middle">
+                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown('left')" class="btn-move-left" ion-button
+                    large>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown('right')" ion-button large>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="btn-bottom">
+                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown('down')" ion-button large>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-click-container">
+        <button (click)="onMouseClick('left')" ion-button large class="btn-click-left">
+            Left
+        </button>
+        <!-- <button (click)="onMouseClick('left')" ion-button class="btn-middle">
+            Middle
+        </button> -->
+        <button (click)="onMouseClick('right')" ion-button outline large>
+            Right
+        </button>
+    </div>
+
 </ion-content>
+
+
+
+
+
+<!-- <ion-header>
+    <ion-navbar>
+        <ion-title>
+            Mouse Control
+        </ion-title>
+    </ion-navbar>
+</ion-header> -->

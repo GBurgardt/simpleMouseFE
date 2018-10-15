@@ -1,3 +1,61 @@
 page-home {
 
+    
+    .btn-move-container {
+        margin: 3%;
+
+        .options-container {
+            display: flex;
+            justify-content: flex-end;
+    
+            .options-sub-container {
+                display: flex;
+    
+                button {
+                    i {
+                        padding: 12px;
+                    }
+                }
+            }
+        }
+        
+        .btn-arrow-container {
+            margin-top: 3%;
+            .btn-top, .btn-middle, .btn-bottom {
+                display: flex;
+                justify-content: center;
+            }
+        
+            .btn-middle {
+                .btn-move-left {
+                    margin-right: 60px;
+                }
+            }
+        }
+
+        .btn-mousepointer-container {
+            display: block;
+            width: 100%;
+            height: 300px;
+            background: #6a98e9;
+            margin-top: 3%;
+            opacity: 1;
+        }
+    }
+
+    .btn-click-container {
+        margin-top: 6%;
+        display: flex;
+        justify-content: center;
+
+        .btn-click-left {
+            margin-right: 10px;
+        }
+
+        button {
+            min-width: 90px;
+        }
+    }
+
+
 }
