@@ -21,6 +21,12 @@ page-home {
         
         .btn-arrow-container {
             margin-top: 3%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+
             .btn-top, .btn-middle, .btn-bottom {
                 display: flex;
                 justify-content: center;

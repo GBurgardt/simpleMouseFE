@@ -8,9 +8,10 @@ export class AuthService {
         private httpClient: HttpClient
     ) { }
 
-    mouseMove = (direc) =>
+    mouseMove = (deltaX, deltaY) =>
         this.httpClient.get(
-            `http://192.168.0.51:3000/mouse/move/${direc}`
+            `http://192.168.0.51:3000/mouse/move/${deltaX}/${deltaY}`
+            // `http://localhost:3000/mouse/move/${deltaX}/${deltaY}`
         )
 
     mouseClick = (type) => 
