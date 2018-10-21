@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthService } from '../../services/authService';
+import { ConfigPage } from '../config/config';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class HomePage {
 
         this.mouseVelocity = mouseVelocityStorage ? mouseVelocityStorage : 5;
         this.scrollVelocity = scrollVelocityStorage ? scrollVelocityStorage : .2;
+
+        
     }
 
     /**
@@ -125,9 +128,16 @@ export class HomePage {
             deltaDesktopX * this.mouseVelocity,
             deltaDesktopY * this.mouseVelocity
         )
-            .subscribe(
-                resp => resp
-            )
+            .toPromise()
+            .then(resp => resp)
+            .catch(async err => {
+                const currentPageName = this.navCtrl.getActive().name
+
+                if (currentPageName === 'HomePage') {
+                    this.navCtrl.push(ConfigPage);
+                }
+            })
+
 
         // Actualizo coordenadas persistidas
         this.oldCordTouch = {

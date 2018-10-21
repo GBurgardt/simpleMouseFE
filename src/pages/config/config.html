@@ -1,0 +1,21 @@
+<ion-content padding>
+
+    <p class="info-config">
+        Al parecer NO está abierta la APP Servidora en la máquina correspondiente a la IP almacenada ({{ipAlmacenada}})
+        Si la IP almacenada es correcta, entonces debe abrir la APP Servidora en tal máquina.
+        Si la IP almacenada es incorrecta, debe buscar la correcta en su APP servidora e introducirla acá.
+    </p>
+
+    <ion-item>
+        <ion-label>IP Servidor</ion-label>
+        <ion-input [(ngModel)]="inputServiceIp" ></ion-input>
+    </ion-item>
+
+    <div class="btn-container">
+
+        <button [disabled]="!inputServiceIp" (click)="saveIp()" ion-button>
+            Guardar
+        </button>
+    </div>
+
+</ion-content>
