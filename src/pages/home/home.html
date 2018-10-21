@@ -1,11 +1,50 @@
 <ion-content padding>
 
+    <div class="title-container">
+        <div class="a">S</div>
+        <div>imple</div>
+        <div class="facil">Mouse</div>
+    </div>
+
     
     <div class="btn-move-container">
 
         <div class="options-container">
-            <div class="options-sub-container">
-                
+            <div class="options-sub-container config-container">
+                <div class="btn-container">
+                    <button *ngIf="!showConfig" (click)="toggleConfig()" ion-button icon-only outline>
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button *ngIf="showConfig" (click)="toggleConfig()" ion-button icon-only>
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+
+                <div *ngIf="showConfig" class="config-content">
+                    <div class="config-element">
+                        <p>Speed: {{ mouseVelocity }}</p>
+                        <i  (click)="mouseVelocity = mouseVelocity + 1" 
+                            class="fas fa-plus">
+                        </i>
+                        <i  (click)="mouseVelocity = mouseVelocity - 1" 
+                            class="fas fa-minus">
+                        </i>
+                    </div>
+
+                    <div class="config-element">
+                        <p>Cursor: {{ scrollVelocity | number : '1.1-1' }}</p>
+                        <i  (click)="scrollVelocity = scrollVelocity + .1" 
+                            class="fas fa-plus">
+                        </i>
+                        <i  (click)="scrollVelocity = scrollVelocity - .1" 
+                            class="fas fa-minus">
+                        </i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="!showConfig" class="options-sub-container">
                 <div *ngIf="mouseType === 'mousePointer'">
                     <button (click)="mouseType = 'mousePointer'" ion-button icon-only>
                         <i class="fas fa-mouse-pointer"></i>
@@ -26,35 +65,46 @@
             </div>
         </div>
 
-        <div    *ngIf="mouseType === 'mousePointer'" 
-                (touchmove)="onTouchMove($event)"
-                (touchstart)="onTouchStart($event)"
-                (touchend)="onTouchEnd($event)"
-                class="btn-mousepointer-container">
-            
+        <div class="mouse-move-container">
+            <div    *ngIf="mouseType === 'mousePointer'" 
+                    (touchmove)="onTouchMove($event)"
+                    (touchstart)="onTouchStart($event)"
+                    (touchend)="onTouchEnd($event)"
+                    class="btn-mousepointer-container">
+                
+            </div>
+    
+            <div *ngIf="mouseType === 'arrows'" class="btn-arrow-container">
+                <div class="btn-top">
+                    <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(0, -15)" ion-button large>
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                </div>
+                <div class="btn-middle">
+                    <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(-15, 0)" class="btn-move-left" ion-button
+                        large>
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(15, 0)" ion-button large>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="btn-bottom">
+                    <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(0, 15)" ion-button large>
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div    (touchmove)="onTouchMoveScroll($event)"
+                    (touchstart)="onTouchStartScroll($event)"
+                    (touchend)="onTouchEndScroll($event)"
+                    class="scroll-container">
+
+            </div>
+
         </div>
 
-        <div *ngIf="mouseType === 'arrows'" class="btn-arrow-container">
-            <div class="btn-top">
-                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(0, -15)" ion-button large>
-                    <i class="fas fa-arrow-up"></i>
-                </button>
-            </div>
-            <div class="btn-middle">
-                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(-15, 0)" class="btn-move-left" ion-button
-                    large>
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(15, 0)" ion-button large>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-            <div class="btn-bottom">
-                <button (touchend)="onMouseUp()" (touchstart)="onMouseDown(0, 15)" ion-button large>
-                    <i class="fas fa-arrow-down"></i>
-                </button>
-            </div>
-        </div>
     </div>
 
     <div class="btn-click-container">

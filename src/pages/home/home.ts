@@ -14,10 +14,27 @@ export class HomePage {
 
     mouseDownID = -1;
 
+    // Velocidad del puntero
+    mouseVelocity = null;
+    // Velocidad del scrolleo
+    scrollVelocity = null;
+
     constructor(
         public navCtrl: NavController,
         private authService: AuthService
     ) { }
+
+    ngOnInit() {
+        const mouseVelocityStorage = Number(
+            localStorage.getItem('mouseVelocity')
+        );
+        const scrollVelocityStorage = Number(
+            localStorage.getItem('scrollVelocity')
+        );
+
+        this.mouseVelocity = mouseVelocityStorage ? mouseVelocityStorage : 5;
+        this.scrollVelocity = scrollVelocityStorage ? scrollVelocityStorage : .2;
+    }
 
     /**
      * Mueve el mouse
@@ -71,8 +88,7 @@ export class HomePage {
     // Para eso uso un intervalo, del cual guardo su id para posteriormente limpiarlo (cuando saque el dedo)
     timeIntervalID = -1;
 
-    // Velocidad del puntero
-    velocidadPuntero = 2;
+    
 
     // Si está en movimiento o no..
     itIsMoving = false;
@@ -106,8 +122,8 @@ export class HomePage {
         const deltaDesktopY = ((vY + v0Y) / 2) * t
 
         this.authService.mouseMove(
-            deltaDesktopX * this.velocidadPuntero,
-            deltaDesktopY * this.velocidadPuntero
+            deltaDesktopX * this.mouseVelocity,
+            deltaDesktopY * this.mouseVelocity
         )
             .subscribe(
                 resp => resp
@@ -175,8 +191,81 @@ export class HomePage {
 
         // No se está moviendo más..
         this.itIsMoving = false;
+    }
 
+
+    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////// Scroll ///////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    
+    // Guardo viejo scroll
+    oldScrollY =  -1;
+
+    
+
+    onTouchMoveScroll = (ev) => {
+        const yTouch = ev && ev.targetTouches && ev.targetTouches.length > 0 && ev.targetTouches[0] ?
+            ev.targetTouches[0].clientY : -1;
+
+        // Un poco de cinemática (uso el mismo intervalo de tiempo que el movmiento porque nunca debeŕian superponerse)
+        const t = this.timeCurrentInterval;
+        const deltaY = (yTouch - this.oldScrollY);
+
+        const aY = (2*deltaY)/(t**2)
+        const v0Y = 0;
+        const vY = v0Y + aY*t
+        const deltaDesktopY = ((vY + v0Y) / 2) * t
+
+        this.authService.mouseScroll(
+            0,
+            (deltaDesktopY * this.scrollVelocity)*(-1)
+        ).subscribe(resp => resp);
+
+        this.oldScrollY = yTouch;
+    }
+
+    onTouchStartScroll = (ev) => {
+        const yTouch = ev && ev.targetTouches && ev.targetTouches.length > 0 && ev.targetTouches[0] ?
+            ev.targetTouches[0].clientY : -1;
+
+        this.oldScrollY = yTouch;
+
+        this.timeIntervalID = setInterval(() => {
+            const deltaInterval = 0.010;
+            this.timeCurrentInterval = this.timeCurrentInterval + deltaInterval;
+        }, 10)
+    }
+
+    onTouchEndScroll = (ev) => {
+        this.oldScrollY = -1;
+
+        if(this.timeIntervalID !== -1) {
+            clearInterval(this.timeIntervalID);
+            this.timeIntervalID = -1;
+            this.timeCurrentInterval = 1;
+        }
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    /////////////////////////// Config //////////////////////////////
+    /////////////////////////////////////////////////////////////////
+
+    showConfig = false;
+
+    /**
+     * Muestra/oculta las config, y las guarda en el localStorage (cuando oculta)
+     */
+    toggleConfig = () => {
+        this.showConfig = !this.showConfig;
+
+        // Si la ocultó
+        if (!this.showConfig) {
+            localStorage.setItem('mouseVelocity', this.mouseVelocity.toString());
+            localStorage.setItem('scrollVelocity', this.scrollVelocity.toString());
+        }
 
     }
+
     
 }
